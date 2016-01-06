@@ -8,3 +8,5 @@ tests/data/run/testTagsExportMultiple.yml
 tests/data/run/testTagsExportSingle.yml
 DashXi.phar
 phpdocs
+tests/data/run/testUntaggedAndTaggedCmdExport.yml
+tests/data/run/testUntaggedCmdExport.yml

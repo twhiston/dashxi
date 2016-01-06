@@ -137,33 +137,39 @@ class Export extends Command {
     /**
      * Deal with commands
      * Commands are a bit more tricky as the lookup is a bit backwards compared to by tag or all
+     * Also we have to content with untagged snippets
      */
     if (!empty($cmds)) {
       //Get our requested commands into the form of a query and execute it
       $cres = $this->query($cmds, 'snippets', 'title');
       $sids = [];
+      $untagged = [];
       foreach ($cres as $key => $val) {
         $sids[] = $val['sid'];
         $sres = $this->query(array($val['sid']), 'tagsIndex', 'sid');
         if(!empty($sres)){
           $results['snippets'][$sres[0]['tid']][]=$val;
+        } else {
+          //If this is empty we have an untagged snippet
+          $results['snippets']['untagged'][]=$val;
         }
       }
 
-      //Once we have all the commands we need to look up their tid by using their sid and the tagsIndex table
+      //Look up tagged snippets
       $sres = $this->query($sids, 'tagsIndex', 'sid');
       $tids = [];
       foreach ($sres as $key => $val) {
         $tids[] = $val['tid'];
       }
-      //Get the tags and merge them into the existing results
-      $tres = $this->query($tids, 'tags', 'tid');
-      if(isset($results['tags'])){
-        $results['tags'] = $this->mergeResults($results['tags'], $tres, 'tid');
-      } else {
-        $results['tags'] = $tres;
+      if(!empty($tids)){
+        //Get the tags and merge them into the existing results
+        $tres = $this->query($tids, 'tags', 'tid');
+        if(isset($results['tags'])){
+          $results['tags'] = $this->mergeResults($results['tags'], $tres, 'tid');
+        } else {
+          $results['tags'] = $tres;
+        }
       }
-
     }
     $this->makeOutput($results, $save, $output);
   }

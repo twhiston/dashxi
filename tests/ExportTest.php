@@ -12,6 +12,8 @@ use twhiston\DashXi\Commands;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Filesystem\Filesystem;
 
 
 /**
@@ -32,6 +34,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
    * @var
    */
   private $commandTester;
+
+  private $fs;
+
+  private $parser;
 
   /**
    * Delete any old results that we might have
@@ -61,6 +67,15 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->command = $this->application->find('export');
     $this->commandTester = new CommandTester($this->command);
 
+    $this->fs = new Filesystem();
+    $this->parser = new Parser();
+
+  }
+
+  private function getFile($filepath){
+    $this->assertTrue($this->fs->exists($filepath));
+    $reload = $this->parser ->parse(file_get_contents($filepath));
+    return $reload;
   }
 
   /**
@@ -89,25 +104,6 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $disp = $this->commandTester->getDisplay();
     $this->assertRegExp('/Save path must end with the .yml filename/', $disp);
 
-  }
-
-  /**
-   * Test exporting all Tags and Snippets
-   */
-  public function testAllExport(){
-
-    $p = __DIR__ . '/data/library.export.dash';
-    $s = __DIR__ . '/data/run/testAllExport.yml';
-    $arguments = array(
-      'command' =>  $this->command->getName(),
-      'dbpath'    => $p,
-      '--savepath' => $s
-    );
-    $this->commandTester->execute($arguments);
-    $disp = $this->commandTester->getDisplay();
-    $this->assertRegExp('/Output saved to/', $disp);
-
-    //todo do some random tests on the results
   }
 
   /**
@@ -172,6 +168,53 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
+   * export an untagged command
+   * @group failing
+   */
+  public function testUntaggedCmdExport(){
+
+    $p = __DIR__ . '/data/library.export.dash';
+    $s = __DIR__ . '/data/run/testUntaggedCmdExport.yml';
+    $arguments = array(
+      'command' =>  $this->command->getName(),
+      'dbpath'    => $p,
+      '--savepath' => $s,
+      '--cmd' => ['`dv'],
+    );
+    $this->commandTester->execute($arguments);
+    $disp = $this->commandTester->getDisplay();
+    $this->assertRegExp('/Output saved to/', $disp);
+
+    //Check that the yml is correct somehow
+    //Get the file that was output and test it
+    $reload = $this->getFile($s);
+
+  }
+
+  /**
+   * export an untagged and a tagged single command
+   */
+  public function testUntaggedAndTaggedCmdExport(){
+
+    $p = __DIR__ . '/data/library.export.dash';
+    $s = __DIR__ . '/data/run/testUntaggedAndTaggedCmdExport.yml';
+    $arguments = array(
+      'command' =>  $this->command->getName(),
+      'dbpath'    => $p,
+      '--savepath' => $s,
+      '--cmd' => ['`dv','`dform'],
+    );
+    $this->commandTester->execute($arguments);
+    $disp = $this->commandTester->getDisplay();
+    $this->assertRegExp('/Output saved to/', $disp);
+
+    //Check that the yml is correct somehow
+    //Get the file that was output and test it
+    $reload = $this->getFile($s);
+
+  }
+
+  /**
    * export multiple commands
    */
   public function testCmdExportMultiple(){
@@ -208,6 +251,48 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
     $this->assertRegExp('/Output saved to/', $disp);
+
+  }
+
+  /**
+   * Test exporting all Tags and Snippets
+   */
+  public function testAllExport(){
+
+    $p = __DIR__ . '/data/library.export.dash';
+    $s = __DIR__ . '/data/run/testAllExport.yml';
+    $arguments = array(
+      'command' =>  $this->command->getName(),
+      'dbpath'    => $p,
+      '--savepath' => $s
+    );
+    $this->commandTester->execute($arguments);
+    $disp = $this->commandTester->getDisplay();
+    $this->assertRegExp('/Output saved to/', $disp);
+
+    //Get the file that was output and test it
+    $reload = $this->getFile($s);
+
+    //assert we have the right amount of data
+    $this->assertCount(6,$reload['tags']);
+    $this->assertCount(7,$reload['snippets']);
+
+    //test that each tag has the correct fields
+    foreach ($reload['tags'] as $tag) {
+      $this->assertArrayHasKey('tid',$tag);
+      $this->assertArrayHasKey('tag',$tag);
+    }
+
+    //test that each snippet has the correct fields
+    foreach ($reload['snippets'] as $snips) {
+      foreach ($snips as $snip) {
+        $this->assertArrayHasKey('sid',$snip);
+        $this->assertArrayHasKey('title',$snip);
+        $this->assertArrayHasKey('body',$snip);
+        $this->assertArrayHasKey('syntax',$snip);
+        $this->assertArrayHasKey('usageCount',$snip);
+      }
+    }
 
   }
 
