@@ -20,7 +20,7 @@ class CleanBackupsTest extends \PHPUnit_Framework_TestCase {
 
     $application = new Application();
     $application->add(new Commands\CleanBackups());
-    $command = $application->find('dashxi:clean');
+    $command = $application->find('clean');
     $commandTester = new CommandTester($command);
     $arguments = array(
       'command' =>  $command->getName(),

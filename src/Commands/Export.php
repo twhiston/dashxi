@@ -49,13 +49,13 @@ class Export extends Command {
         'tag',
         NULL,
         InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-        'Array of tags to filter output by'
+        'tag groups to output'
       )
       ->addOption(
         'cmd',
         NULL,
         InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-        'Array of snippet abbreviations to filter output by. Be aware that you might need to close dash to run this or it will try to expand your commands'
+        'snippet abbreviations to include in output. Be aware that you might need to close dash to run this or it will try to expand your commands'
       )
       ->addOption(
         'savepath',
@@ -145,7 +145,9 @@ class Export extends Command {
       foreach ($cres as $key => $val) {
         $sids[] = $val['sid'];
         $sres = $this->query(array($val['sid']), 'tagsIndex', 'sid');
-        $results['snippets'][$sres[0]['tid']][]=$val;
+        if(!empty($sres)){
+          $results['snippets'][$sres[0]['tid']][]=$val;
+        }
       }
 
       //Once we have all the commands we need to look up their tid by using their sid and the tagsIndex table
@@ -156,7 +158,12 @@ class Export extends Command {
       }
       //Get the tags and merge them into the existing results
       $tres = $this->query($tids, 'tags', 'tid');
-      $results['tags'] = $this->mergeResults($results['tags'], $tres, 'tid');
+      if(isset($results['tags'])){
+        $results['tags'] = $this->mergeResults($results['tags'], $tres, 'tid');
+      } else {
+        $results['tags'] = $tres;
+      }
+
     }
     $this->makeOutput($results, $save, $output);
   }

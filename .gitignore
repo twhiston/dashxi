@@ -1,4 +1,9 @@
 .idea
-data
 vendor
 composer.lock
+tests/data/run/testAllExport.yml
+tests/data/run/testCmdExport.yml
+tests/data/run/testCmdExportMultiple.yml
+tests/data/run/testTagsExportMultiple.yml
+tests/data/run/testTagsExportSingle.yml
+DashXi.phar

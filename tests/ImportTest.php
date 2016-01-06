@@ -20,13 +20,26 @@ class ImportTest extends \PHPUnit_Framework_TestCase {
 
     $application = new Application();
     $application->add(new Commands\Import());
-    $command = $application->find('dashxi:import');
+    $command = $application->find('import');
     $commandTester = new CommandTester($command);
 
     //Test that no arguments fails out
+    //The import DB has some of the same codes, and some different ones, and tags
+    //The command `smyr is the same command but definitely a different ID
+    //So this needs special attention
+    $p = '//asaaass.s8ths92.9hsay-aa';
     $arguments = array(
       'command' =>  $command->getName(),
-      'dbpath'    => '/Users/webdev/Library/Application Support/Dash/library.dash',
+      'dbpath'    => $p,
+    );
+    $commandTester->execute($arguments);
+    $disp = $commandTester->getDisplay();
+    $this->assertRegExp('/Cannot Find DB/', $disp);
+
+    $p = __DIR__ . '/data/library.import.dash';
+    $arguments = array(
+      'command' =>  $command->getName(),
+      'dbpath'    => $p,
     );
     $commandTester->execute($arguments);
     $disp = $commandTester->getDisplay();
@@ -36,7 +49,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase {
     //test that no yml extension fails
     $arguments = array(
       'command' =>  $command->getName(),
-      'dbpath'    => '/Users/webdev/Library/Application Support/Dash/library.dash',
+      'dbpath'    => $p,
       '--file' => '/this/is/a/file/path',
     );
     $commandTester->execute($arguments);
@@ -46,7 +59,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase {
     //test that invalid file fails
     $arguments = array(
       'command' =>  $command->getName(),
-      'dbpath'    => '/Users/webdev/Library/Application Support/Dash/library.dash',
+      'dbpath'    => $p,
       '--file' => '/this/is/a/file/path/file.yml',
     );
     $commandTester->execute($arguments);
@@ -59,12 +72,14 @@ class ImportTest extends \PHPUnit_Framework_TestCase {
 
     $application = new Application();
     $application->add(new Commands\Import());
-    $command = $application->find('dashxi:import');
+    $command = $application->find('import');
     $commandTester = new CommandTester($command);
 
+    $p = __DIR__ . '/data/library.import.dash';
+    $pd = __DIR__ . '/data/';
     $arguments = array(
       'command' =>  $command->getName(),
-      'dbpath'  => '/Users/webdev/Library/Application Support/Dash/library.dash',
+      'dbpath'  => $p,
       '--file'  => '/Users/webdev/Sites/_MyCode/PHP/DashSnippetExtractor/data/output.yml'
     );
     $commandTester->execute($arguments);
