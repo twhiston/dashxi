@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+  <title>DashXi</title>
+  <parser>
+    <target>phpdocs/output</target>
+    <extensions>
+      <extension>php</extension>
+    </extensions>
+  </parser>
+  <transformer>
+    <target>phpdocs/docs</target>
+  </transformer>
+  <files>
+    <file>src/*</file>
+    <ignore>tests/*</ignore>
+    <ignore>Tests/*</ignore>
+    <ignore>vendor/*</ignore>
+  </files>
+</phpdoc>

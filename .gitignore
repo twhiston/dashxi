@@ -7,3 +7,4 @@ tests/data/run/testCmdExportMultiple.yml
 tests/data/run/testTagsExportMultiple.yml
 tests/data/run/testTagsExportSingle.yml
 DashXi.phar
+phpdocs
