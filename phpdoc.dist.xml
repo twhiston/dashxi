@@ -11,7 +11,7 @@
     <target>phpdocs/docs</target>
   </transformer>
   <files>
-    <file>src/*</file>
+    <file>src/Commands/*</file>
     <ignore>tests/*</ignore>
     <ignore>Tests/*</ignore>
     <ignore>vendor/*</ignore>

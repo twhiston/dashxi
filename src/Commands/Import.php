@@ -18,9 +18,16 @@ use Symfony\Component\Yaml\Parser;
 use twhiston\twLib\Str;
 
 
+/**
+ * Class Import
+ * @package twhiston\DashXi\Commands
+ */
 class Import extends Command {
 
 
+  /**
+   * @var
+   */
   private $db;
 
   /**
@@ -52,6 +59,10 @@ class Import extends Command {
       );
   }
 
+  /**
+   * @param \Symfony\Component\Console\Input\InputInterface $input
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
+   */
   protected function execute(InputInterface $input, OutputInterface $output) {
 
     $dbpath = $input->getArgument('dbpath');
