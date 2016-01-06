@@ -1,0 +1,28 @@
+{
+    "name": "twhiston/dash-snippet-extractor",
+    "description": "Export and Import dash snippets",
+    "require": {
+        "symfony/console": "^3.0",
+        "symfony/filesystem": "^3.0",
+        "symfony/yaml": "^3.0",
+        "twhiston/twLib": "dev-master",
+        "symfony/finder": "^3.0"
+    },
+    "authors": [
+        {
+            "name": "Tom W",
+            "email": "tom.whiston@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "twhiston\\DashXi\\" : "src"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://twhiston@bitbucket.org/twhiston/twlib.git"
+        }
+    ]
+}
