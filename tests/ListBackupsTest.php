@@ -43,12 +43,7 @@ class ListBackupsTest extends \PHPUnit_Framework_TestCase {
     );
 
     $commandTester->execute($arguments);
-
-    $disp = $commandTester->getDisplay();
-    $this->assertRegExp('/library.dash.backup/',$disp);
-    $a=0;
-
-
+    $this->assertRegExp('/library.dash.backup/',$commandTester->getDisplay());
 
   }
 
