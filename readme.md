@@ -60,7 +60,7 @@ dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='dru
 #### Options
 - tag tags to include in the export, multiple values allowed
 - snip individual snippets to add, multiple values allowed
-- savepath Optional file output location and name. must end with .yml. If non is specified output will be printed to the console
+- file Optional file output location and name. must end with .yml. If non is specified output will be printed to the console
 
 
 ## import
