@@ -18,11 +18,18 @@ If you want to use the command globally you can move it to your bin (if this fai
 mv dashxi.phar /usr/local/bin/dashxi
 ```
 
-Otherwise you can download the repo, run composer update and start application.php
+Otherwise you can download the repo, run composer update and use application.php to access the commands
 ```
-git clone
+git clone https://twhiston@bitbucket.org/twhiston/dashxi.git
 composer update
 ./application.php import 'User/x/library/Application Support/Dash/database.dash' --file=''
+```
+
+or build the phar yourself
+```
+git clone https://twhiston@bitbucket.org/twhiston/dashxi.git
+composer update
+box build -v
 ```
 
 
