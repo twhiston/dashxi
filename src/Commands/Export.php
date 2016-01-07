@@ -148,7 +148,19 @@ class Export extends Command {
         $sids[] = $val['sid'];
         $sres = $this->query(array($val['sid']), 'tagsIndex', 'sid');
         if(!empty($sres)){
-          $results['snippets'][$sres[0]['tid']][]=$val;
+          //check if it exists already in the snippet table
+          $insert = TRUE;
+          if(array_key_exists($sres[0]['tid'],$results['snippets'])){
+            foreach ($results['snippets'][$sres[0]['tid']] as $ekey => $existant) {
+              if(in_array($val['sid'],$existant)){
+                $insert = FALSE;
+              }
+            }
+          }
+          if($insert === TRUE){
+            $results['snippets'][$sres[0]['tid']][]=$val;
+          }
+
         } else {
           //If this is empty we have an untagged snippet
           $results['snippets']['untagged'][]=$val;

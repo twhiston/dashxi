@@ -35,8 +35,14 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
    */
   private $commandTester;
 
+  /**
+   * @var
+   */
   private $fs;
 
+  /**
+   * @var
+   */
   private $parser;
 
   /**
@@ -72,6 +78,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
 
   }
 
+  /**
+   * @param $filepath
+   * @return mixed
+   */
   private function getFile($filepath){
     $this->assertTrue($this->fs->exists($filepath));
     $reload = $this->parser ->parse(file_get_contents($filepath));
@@ -357,6 +367,8 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * export some tags and commands
+   * Importantly vu is in the commands and the tags groups.
+   * It should NOT be imported twice in the snippets group for vagrant
    * @group failing
    */
   public function testMixedExport(){
@@ -396,19 +408,21 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->assertArrayHasKey(9,$output['snippets']);
     $this->assertCount(1,$output['snippets'][9]);
 
-    //TODO - this is failing because its in the tag and cmd options, and it doesnt merge right
+    //Assert that the vu command does not appear twice
     $this->assertArrayHasKey(14,$output['snippets']);
     $this->assertCount(4,$output['snippets'][14]);
 
     $this->assertArrayHasKey(15,$output['snippets']);
     $this->assertCount(4,$output['snippets'][1]);
 
+    //Test a couple of values
 
 
   }
 
   /**
    * Test exporting all Tags and Snippets
+   * @group failing
    */
   public function testAllExport(){
 
@@ -449,6 +463,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
 
   }
 
+  /**
+   * @param $tag
+   * @param $correct
+   */
   private function testTag(&$tag,$correct){
     if($correct[0] !== NULL){
       $this->assertArrayHasKey('tid',$tag);
@@ -460,6 +478,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     }
   }
 
+  /**
+   * @param $snippet
+   * @param $correct
+   */
   private function testSnippet(&$snippet,$correct){
 
     if($correct[0] !== NULL){

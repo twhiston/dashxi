@@ -15,10 +15,20 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 
+/**
+ * Class CleanBackupsTest
+ * @package twhiston\DashXi\tests
+ */
 class CleanBackupsTest extends \PHPUnit_Framework_TestCase {
 
+  /**
+   * @var
+   */
   private $fs;
 
+  /**
+   *
+   */
   protected function setUp(){
 
     //Copy some files into our cleaning directory
@@ -34,7 +44,7 @@ class CleanBackupsTest extends \PHPUnit_Framework_TestCase {
 
   //Test that we get all the data on expost. We should really provide a test db to do this with so we can closely test the actual results
   /**
-   *  @group failing
+   *
    */
   public function testClean(){
 
