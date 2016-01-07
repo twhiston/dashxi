@@ -19,14 +19,18 @@ If you want to use the command globally you can move it to your bin (if this fai
 mv dashxi.phar /usr/local/bin/dashxi
 ```
 
-Otherwise you can download the repo, run composer update and use application.php to access the commands
+Otherwise you can download the repo and run composer update (requires composer)
 ```
 git clone https://twhiston@bitbucket.org/twhiston/dashxi.git
 composer update
+```
+
+Use application.php to access the commands
+```
 ./application.php import 'User/x/library/Application Support/Dash/database.dash' --file=''
 ```
 
-or build the phar yourself
+or build the phar yourself (requires box)
 ```
 git clone https://twhiston@bitbucket.org/twhiston/dashxi.git
 composer update
@@ -52,7 +56,7 @@ dashxi help export
 Export a set of all snippets, snippets by tag, or individual snippets by name.
 Note that currently there is no way to export only the set of untagged commands. You could specify each command individually, but it would be easier to simply create a tag for them in Dash
 ```
-dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='drupal' --tag='symfony' --cmd='`cstm' --cmd='doit' --file='User/x/DashBackups/backup.yml'
+dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='drupal' --tag='symfony' --snip='`cstm' --snip='doit' --file='User/x/DashBackups/backup.yml'
 ```
 
 #### Arguments
