@@ -48,7 +48,8 @@ dashxi help export
 ```
 
 ## export
-Export a set of all snippets, snippets by tag, or individual snippets by name
+Export a set of all snippets, snippets by tag, or individual snippets by name.
+Note that currently there is no way to export only the set of untagged commands. You could specify each command individually, but it would be easier to simply create a tag for them in Dash
 ```
 dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='drupal' --tag='symfony' --cmd='`cstm' --cmd='doit' --savepath='User/x/DashBackups/backup.yml'
 ```

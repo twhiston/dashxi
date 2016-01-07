@@ -143,13 +143,13 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->internalTestTag($output['tags'][0],$correct);
 
     $correct = [66,'`vs','vagrant ssh','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][14][0],$correct);
+    $this->internalTestSnippet($output['snippets'][14][0],$correct);
     $correct = [67,'`vu','vagrant up','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][14][1],$correct);
+    $this->internalTestSnippet($output['snippets'][14][1],$correct);
     $correct = [68,'`vr','vagrant reload','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][14][2],$correct);
+    $this->internalTestSnippet($output['snippets'][14][2],$correct);
     $correct = [69,'`vh','vagrant halt','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][14][3],$correct);
+    $this->internalTestSnippet($output['snippets'][14][3],$correct);
 
   }
 
@@ -192,10 +192,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
 
     //Test a couple of snippets
     $correct = [33,'`smyc','sudo nano \/etc\/mysql\/my.cnf','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][3][2],$correct);
+    $this->internalTestSnippet($output['snippets'][3][2],$correct);
 
     $correct = [52,'`xxp','export XDEBUG_CONFIG="idekey=PHPSTORM"','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][9][0],$correct);
+    $this->internalTestSnippet($output['snippets'][9][0],$correct);
 
   }
 
@@ -232,7 +232,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->assertArrayHasKey(3,$output['snippets']);
     $this->assertCount(1,$output['snippets'][3]);
     $correct = [34,'`ssc','sudo dd if=\/dev\/null of=\/var\/log\/syslog','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][3][0],$correct);
+    $this->internalTestSnippet($output['snippets'][3][0],$correct);
 
   }
 
@@ -263,7 +263,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->assertCount(1,$output['snippets']['untagged']);
 
     $correct = [61,'`dv','drush ves __ENV__','PHP','0'];
-    $this->InternalTestSnippet($output['snippets']['untagged'][0],$correct);
+    $this->internalTestSnippet($output['snippets']['untagged'][0],$correct);
 
   }
 
@@ -297,14 +297,14 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->assertCount(2,$output['snippets'][10]);
 
     $correct = [72,'`sym','ln -s __ORIGINAL__ __SYMLINK__','PHP','0'];
-    $this->InternalTestSnippet($output['snippets']['untagged'][0],$correct);
+    $this->internalTestSnippet($output['snippets']['untagged'][0],$correct);
 
     //we cannot test the data because of all the potential characters. Well we could, but a lot of trouble
     $correct = [63,'`dmenu',null,'PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][10][0],$correct);
+    $this->internalTestSnippet($output['snippets'][10][0],$correct);
 
     $correct = [64,'`dform',null,'PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][10][1],$correct);
+    $this->internalTestSnippet($output['snippets'][10][1],$correct);
 
     $correct = [10,'drupal'];
     $this->internalTestTag($output['tags'][0],$correct);
@@ -352,16 +352,16 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->internalTestTag($output['tags'][1],$correct);
 
     $correct = [3,'checksym\'','php app\/check.php','PHP','0'];
-    $this->InternalTestSnippet($output['snippets']['untagged'][0],$correct);
+    $this->internalTestSnippet($output['snippets']['untagged'][0],$correct);
 
     $correct = [32,'`smyr','sudo service mysql restart','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][3][0],$correct);
+    $this->internalTestSnippet($output['snippets'][3][0],$correct);
 
     $correct = [37,'`sar','sudo \/usr\/sbin\/apachectl restart','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][3][1],$correct);
+    $this->internalTestSnippet($output['snippets'][3][1],$correct);
 
     $correct = [70,'`d8f',null,'PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][15][0],$correct);
+    $this->internalTestSnippet($output['snippets'][15][0],$correct);
 
   }
 
@@ -416,19 +416,18 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
 
     //Test a couple of values
     $correct = [67,'`vu','vagrant up','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][14][1],$correct);
+    $this->internalTestSnippet($output['snippets'][14][1],$correct);
 
     $correct = [52,'`xxp','export XDEBUG_CONFIG="idekey=PHPSTORM"','PHP','0'];
-    $this->InternalTestSnippet($output['snippets'][9][0],$correct);
+    $this->internalTestSnippet($output['snippets'][9][0],$correct);
 
     $correct = [3,'checksym\'','php app\/check.php','PHP','0'];
-    $this->InternalTestSnippet($output['snippets']['untagged'][0],$correct);
+    $this->internalTestSnippet($output['snippets']['untagged'][0],$correct);
 
   }
 
   /**
    * Test exporting all Tags and Snippets
-   * @group failing
    */
   public function testAllExport(){
 
@@ -450,6 +449,9 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->assertCount(6,$reload['tags']);
     $this->assertCount(7,$reload['snippets']);
 
+    /**
+     * General Data integrity checks
+     */
     //test that each tag has the correct fields
     foreach ($reload['tags'] as $tag) {
       $this->assertArrayHasKey('tid',$tag);
@@ -466,6 +468,21 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
         $this->assertArrayHasKey('usageCount',$snip);
       }
     }
+
+    /**
+     * Test some untagged snippets here, as tagged snippets are received in the same way that all the other exports do and they are tested in every other unit test
+     * Untagged snippets in all are a special case though as they use their own query
+     */
+    $this->assertCount(4,$reload['snippets']['untagged']);
+
+    $correct = [3,"checksym'",'php app\/check.php','PHP','0'];
+    $this->internalTestSnippet($reload['snippets']['untagged'][0],$correct);
+    $correct = [72,'`sym','ln -s __ORIGINAL__ __SYMLINK__','PHP','0'];
+    $this->internalTestSnippet($reload['snippets']['untagged'][3],$correct);
+
+    //Test one tagged snippet for good measure
+    $correct = [68,'`vr','vagrant reload','PHP','0'];
+    $this->internalTestSnippet($reload['snippets'][14][2],$correct);
 
   }
 
@@ -488,7 +505,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
    * @param $snippet
    * @param $correct
    */
-  private function InternalTestSnippet(&$snippet,$correct){
+  private function internalTestSnippet(&$snippet,$correct){
 
     if($correct[0] !== NULL){
       $this->assertArrayHasKey('sid',$snippet);

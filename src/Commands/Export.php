@@ -118,6 +118,13 @@ class Export extends Command {
         return;
       }
       $results['snippets'] = $this->getSnippetsFromTagSet($tres);
+
+      //We need to get untagged snippets as well
+      $tquery = $this->db->prepare("SELECT * FROM snippets s WHERE NOT EXISTS (SELECT s.sid from tagsIndex t WHERE s.sid = t.sid)");
+      $tquery->execute();
+      $tres = $tquery->fetchAll(\PDO::FETCH_ASSOC);
+      $results['snippets']['untagged'] = $tres;
+
       $this->makeOutput($results, $save, $output);
       return;
     }

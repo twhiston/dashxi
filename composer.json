@@ -1,5 +1,5 @@
 {
-    "name": "twhiston/dash-snippet-extractor",
+    "name": "twhiston/dashxi",
     "description": "Export and Import dash snippets",
     "require": {
         "symfony/console": "^3.0",
@@ -10,7 +10,7 @@
     },
     "authors": [
         {
-            "name": "Tom W",
+            "name": "Tom Whiston",
             "email": "tom.whiston@gmail.com"
         }
     ],
