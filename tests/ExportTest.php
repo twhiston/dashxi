@@ -211,7 +211,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
       '--savepath' => $s,
-      '--cmd' => ['`ssc'],
+      '--snip' => ['`ssc'],
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
@@ -248,7 +248,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
       '--savepath' => $s,
-      '--cmd' => ['`dv'],
+      '--snip' => ['`dv'],
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
@@ -279,7 +279,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
       '--savepath' => $s,
-      '--cmd' => ['`sym','`dform','`dmenu'],
+      '--snip' => ['`sym','`dform','`dmenu'],
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
@@ -322,7 +322,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
       '--savepath' => $s,
-      '--cmd' => ['`sar','`smyr',"checksym'","`d8f"],
+      '--snip' => ['`sar','`smyr',"checksym'","`d8f"],
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
@@ -378,7 +378,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
       '--savepath' => $s,
-      '--cmd' => ["checksym'","`d8f",'`vu'],
+      '--snip' => ["checksym'","`d8f",'`vu'],
       '--tag' => ['vagrant','xdebug'],
     );
     $this->commandTester->execute($arguments);

@@ -52,7 +52,7 @@ class Export extends Command {
         'tag groups to output'
       )
       ->addOption(
-        'cmd',
+        'snip',
         NULL,
         InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
         'snippet abbreviations to include in output. Be aware that you might need to close dash to run this or it will try to expand your commands'
@@ -102,7 +102,7 @@ class Export extends Command {
     $results = [];//Holds all our results, to be made into yaml
 
     $tags = $input->getOption('tag');
-    $cmds = $input->getOption('cmd');
+    $cmds = $input->getOption('snip');
 
     //If there are no tags or commands we need to export everything
     if (empty($tags) && empty($cmds)) {
