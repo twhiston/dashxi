@@ -118,46 +118,46 @@ class Import extends Command {
      */
 
     //We need to check if the tag exists, if it does then we need to record what id it has
+    //Tags array will not contain the 'untagged' category so we dont need anything to deal with it
     $tidActual = [];
     $tids = [];
-    foreach ($import['tags'] as $key => $tag) {
-      $tids[] = $tag['tag'];
-    }
-    $existing = $this->query($tids, 'tags', 'tag');
-    foreach ($import['tags'] as $ikey => $ivalue) {
-      $found = FALSE;
-      foreach ($existing as $ekey => $evalue) {
-        if ($ivalue['tag'] == $evalue['tag']) {
-          //if they have the same tag
-          $found = TRUE;
-          $evalue['import_tid'] = $ivalue['tid'];
-          $tidActual[$ivalue['tid']] = $evalue;
-        }
+    if(array_key_exists('tags',$import)){
+      foreach ($import['tags'] as $key => $tag) {
+        $tids[] = $tag['tag'];
       }
-      if($found === FALSE){
-        //Create a new tid and capture its new and old value
-        $insert = $this->db->prepare('INSERT INTO tags (tag) VALUES (:tag) ');
-        $insert->bindParam(':tag',$ivalue['tag']);
-        $insert->execute();
-        $existing = $this->query(array($ivalue['tag']), 'tags', 'tag');
-        $data = array_shift($existing);
-        $data['import_tid'] = $ivalue['tid'];
-        $tidActual[$ivalue['tid']] = $data;
+      $existing = $this->query($tids, 'tags', 'tag');
+      foreach ($import['tags'] as $ikey => $ivalue) {
+        $found = FALSE;
+        foreach ($existing as $ekey => $evalue) {
+          if ($ivalue['tag'] == $evalue['tag']) {
+            //if they have the same tag
+            $found = TRUE;
+            $evalue['import_tid'] = $ivalue['tid'];
+            $tidActual[$ivalue['tid']] = $evalue;
+          }
+        }
+        if($found === FALSE){
+          //Create a new tag and capture its new and old value
+          $insert = $this->db->prepare('INSERT INTO tags (tag) VALUES (:tag) ');
+          $insert->bindParam(':tag',$ivalue['tag']);
+          $insert->execute();
+          $existing = $this->query(array($ivalue['tag']), 'tags', 'tag');
+          $data = array_shift($existing);
+          $data['import_tid'] = $ivalue['tid'];
+          $tidActual[$ivalue['tid']] = $data;
+        }
       }
     }
 
     //We now have an array of tid names keyend by their import key and containing their differing ID's where appropriate. So we can create the snippets
     foreach ($import['snippets'] as $otid => $snippets) {
-      $tagdata = $tidActual[$otid];
       foreach ($snippets as $snippet) {
 
         //We need to see if the snippet exists already, if so ignore it
         $cquery = $this->db->prepare(
-          "SELECT * FROM snippets WHERE title = :title AND body = :body AND syntax = :syntax"
+          "SELECT * FROM snippets WHERE title = :title"
         );
         $cquery->bindParam(':title',$snippet['title']);
-        $cquery->bindParam(':body',$snippet['body']);
-        $cquery->bindParam(':syntax',$snippet['syntax']);
         $cquery->execute();
         $temp = $cquery->fetch(\PDO::FETCH_ASSOC);
         if($temp == false){
@@ -167,25 +167,24 @@ class Import extends Command {
           $insert->bindParam(':body',$snippet['body']);
           $insert->bindParam(':syntax',$snippet['syntax']);
           $insert->bindParam(':usageCount',$snippet['usageCount']);
-          //TODO - bailout if failed
           $insert->execute();
           $newsid = $this->db->lastInsertId();
-
-          //Link it to a tag
-          //TODO - bailout if snippet untagged
-          $insert = $this->db->prepare('INSERT INTO tagsIndex (tid, sid) VALUES (:tid, :sid) ');
-          $insert->bindParam(':tid',$tidActual[$otid]['tid']);
-          $insert->bindParam(':sid',$newsid);
-          //TODO - bailout if failed
-          $insert->execute();
-
-          $output->writeln('Added Command '.$snippet['title'].'to tag: '.$tidActual[$otid]['tag']);
+          if($otid !== 'untagged'){
+            //Link it to a tag
+            $insert = $this->db->prepare('INSERT INTO tagsIndex (tid, sid) VALUES (:tid, :sid) ');
+            $insert->bindParam(':tid',$tidActual[$otid]['tid']);
+            $insert->bindParam(':sid',$newsid);
+            $insert->execute();
+            $output->writeln('Added Command '.$snippet['title'].' to tag: '.$tidActual[$otid]['tag']);
+          } else {
+            $output->writeln('Added Untagged Command '.$snippet['title']);
+          }
+        } else {
+          $output->writeln('Command '.$snippet['title'].' already exists');
         }
       }
     }
-
   }
-
 
   /**
    * Do a simple pdo query and return some results. All db commands bar the all tag lookup command go through this

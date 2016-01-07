@@ -385,7 +385,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
   public function testMixedExport(){
 
     $p = __DIR__ . '/data/library.export.dash';
-    $s = __DIR__ . '/data/run/testCmdExportMultiple.yml';
+    $s = __DIR__ . '/data/run/testMixedExport.yml';
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,

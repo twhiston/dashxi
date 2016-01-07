@@ -6,7 +6,8 @@ tests/data/run/testCmdExport.yml
 tests/data/run/testCmdExportMultiple.yml
 tests/data/run/testTagsExportMultiple.yml
 tests/data/run/testTagsExportSingle.yml
-DashXi.phar
-phpdocs
 tests/data/run/testUntaggedAndTaggedCmdExport.yml
 tests/data/run/testUntaggedCmdExport.yml
+DashXi.phar
+phpdocs
+testMixedExport.yml
