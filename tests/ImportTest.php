@@ -71,6 +71,15 @@ class ImportTest extends \PHPUnit_Framework_TestCase {
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
+    $this->assertRegExp('/Database path must end with the .dash filename/', $disp);
+
+    $p = '//asaaass.s8ths92.9hsay-aa.dash';
+    $arguments = array(
+      'command' =>  $this->command->getName(),
+      'dbpath'    => $p,
+    );
+    $this->commandTester->execute($arguments);
+    $disp = $this->commandTester->getDisplay();
     $this->assertRegExp('/Cannot Find DB/', $disp);
 
     $p = __DIR__ . '/data/library.import.dash';

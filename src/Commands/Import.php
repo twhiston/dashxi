@@ -67,6 +67,13 @@ class Import extends Command {
 
     $dbpath = $input->getArgument('dbpath');
 
+    if (!Str::endsWith($dbpath, '.dash')) {
+      $output->writeln(
+        '<error>Database path must end with the .dash filename</error>'
+      );
+      return;
+    }
+
     //Test db file exists
     $fs = new Filesystem();
     if (!$fs->exists($dbpath)) {

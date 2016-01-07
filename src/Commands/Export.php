@@ -58,7 +58,7 @@ class Export extends Command {
         'snippet abbreviations to include in output. Be aware that you might need to close dash to run this or it will try to expand your commands'
       )
       ->addOption(
-        'savepath',
+        'file',
         NULL,
         InputOption::VALUE_OPTIONAL,
         'yml output save path including filename.yml, if non specified output is printed to the console'
@@ -84,7 +84,7 @@ class Export extends Command {
       return;
     }
 
-    $save = $input->getOption('savepath');//null or path
+    $save = $input->getOption('file');//null or path
     if ($save !== NULL) {
       if (!Str::endsWith($save, '.yml')) {
         $output->writeln(

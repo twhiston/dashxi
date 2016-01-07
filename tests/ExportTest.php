@@ -120,7 +120,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => __DIR__ . '/data/run/exportAll'
+      '--file' => __DIR__ . '/data/run/exportAll'
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
@@ -138,7 +138,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s,
+      '--file' => $s,
       '--tag' => ['vagrant'],
     );
     $this->commandTester->execute($arguments);
@@ -176,7 +176,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s,
+      '--file' => $s,
       '--tag' => ['vagrant','xdebug','devserver'],
     );
     $this->commandTester->execute($arguments);
@@ -222,7 +222,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s,
+      '--file' => $s,
       '--snip' => ['`ssc'],
     );
     $this->commandTester->execute($arguments);
@@ -259,7 +259,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s,
+      '--file' => $s,
       '--snip' => ['`dv'],
     );
     $this->commandTester->execute($arguments);
@@ -290,7 +290,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s,
+      '--file' => $s,
       '--snip' => ['`sym','`dform','`dmenu'],
     );
     $this->commandTester->execute($arguments);
@@ -333,7 +333,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s,
+      '--file' => $s,
       '--snip' => ['`sar','`smyr',"checksym'","`d8f"],
     );
     $this->commandTester->execute($arguments);
@@ -389,7 +389,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s,
+      '--file' => $s,
       '--snip' => ["checksym'","`d8f",'`vu'],
       '--tag' => ['vagrant','xdebug'],
     );
@@ -448,7 +448,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $arguments = array(
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
-      '--savepath' => $s
+      '--file' => $s
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
