@@ -48,7 +48,7 @@ class Import extends Command {
         'file',
         NULL,
         InputOption::VALUE_REQUIRED,
-        'full path to file you want to import'
+        'full path to file you want to import with extension'
       )
       ->addOption(
         'backup',

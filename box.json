@@ -12,6 +12,6 @@
   ],
   "git-version": "package_version",
   "main": "application.php",
-  "output": "DashXi.phar",
+  "output": "dashxi.phar",
   "stub": true
 }
