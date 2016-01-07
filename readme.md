@@ -10,7 +10,8 @@ I work for a web company and it makes more sense to make it in a language that e
 
 The easiest way to install is to download the .phar
 ```
-curl -sS url/to/dashxi.phar
+curl -sS https://bitbucket.org/twhiston/dashxi/downloads/dashxi.phar
+sudo chmod 700 dashxi.phar
 ```
 
 If you want to use the command globally you can move it to your bin (if this fails try adding sudo in front) and remove the .phar extension. Examples below will follow this usage pattern.
@@ -51,7 +52,7 @@ dashxi help export
 Export a set of all snippets, snippets by tag, or individual snippets by name.
 Note that currently there is no way to export only the set of untagged commands. You could specify each command individually, but it would be easier to simply create a tag for them in Dash
 ```
-dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='drupal' --tag='symfony' --cmd='`cstm' --cmd='doit' --savepath='User/x/DashBackups/backup.yml'
+dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='drupal' --tag='symfony' --cmd='`cstm' --cmd='doit' --file='User/x/DashBackups/backup.yml'
 ```
 
 #### Arguments
