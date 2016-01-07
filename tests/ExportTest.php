@@ -76,7 +76,19 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->fs = new Filesystem();
     $this->parser = new Parser();
 
+    //reset the import db
+    $d = __DIR__.'/data/';
+    $s = 'library.export.dash';
+    if($this->fs->exists($d.$s)){
+      $this->fs->remove($d.$s);
+    }
+    $d = __DIR__.'/data/';
+    $s = 'orig.library.export.dash';
+    $this->fs->copy($d.$s, $d.'library.export.dash');
+
   }
+
+
 
   /**
    * @param $filepath

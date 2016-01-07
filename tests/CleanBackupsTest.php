@@ -32,7 +32,7 @@ class CleanBackupsTest extends \PHPUnit_Framework_TestCase {
   protected function setUp(){
 
     //Copy some files into our cleaning directory
-    $f = 'library.export.dash';
+    $f = 'orig.library.export.dash';
     $p = __DIR__ . '/data/';
     $this->fs = new Filesystem();
     if (!$this->fs->exists($p.$f)) {

@@ -11,6 +11,7 @@ namespace twhiston\DashXi\tests;
 use twhiston\DashXi\Commands;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Filesystem;
 
 
 /**
@@ -39,14 +40,24 @@ class ImportTest extends \PHPUnit_Framework_TestCase {
     $this->command = $this->application->find('import');
     $this->commandTester = new CommandTester($this->command);
 
-    //todo - reset the import db
+    //reset the import db
+    $this->fs = new Filesystem();
+    //if import db exists delete it
+    $d = __DIR__.'/data/';
+    $s = 'library.import.dash';
+    if($this->fs->exists($d.$s)){
+      $this->fs->remove($d.$s);
+    }
+    $d = __DIR__.'/data/';
+    $s = 'orig.library.import.dash';
+    $this->fs->copy($d.$s, $d.'library.import.dash');
 
 
   }
 
-  //Test that we get all the data on expost. We should really provide a test db to do this with so we can closely test the actual results
+
   /**
-   *
+   * Check false import argument/option reject is correct
    */
   public function testAllImportArguments(){
 
