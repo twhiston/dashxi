@@ -10,7 +10,7 @@ I work for a web company and it makes more sense to make it in a language that e
 
 The easiest way to install is to download the .phar
 ```
-curl -sS https://bitbucket.org/twhiston/dashxi/downloads/dashxi.phar
+curl -L -O -sS https://bitbucket.org/twhiston/dashxi/downloads/dashxi.phar
 sudo chmod 700 dashxi.phar
 ```
 
