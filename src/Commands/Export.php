@@ -150,7 +150,7 @@ class Export extends Command {
         if(!empty($sres)){
           //check if it exists already in the snippet table
           $insert = TRUE;
-          if(array_key_exists($sres[0]['tid'],$results['snippets'])){
+          if(array_key_exists('snippets',$results) && array_key_exists($sres[0]['tid'],$results['snippets'])){
             foreach ($results['snippets'][$sres[0]['tid']] as $ekey => $existant) {
               if(in_array($val['sid'],$existant)){
                 $insert = FALSE;
