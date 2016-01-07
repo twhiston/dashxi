@@ -123,10 +123,29 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $disp = $this->commandTester->getDisplay();
     $this->assertRegExp('/Output saved to/', $disp);
 
+    $output = $this->getFile($s);
+    $this->assertArrayHasKey('snippets',$output);
+    $this->assertArrayHasKey('tags',$output);
+    $this->assertArrayHasKey(14,$output['snippets']);
+    $this->assertCount(4,$output['snippets'][14]);
+
+    $correct = [14,'vagrant'];
+    $this->testTag($output['tags'][0],$correct);
+
+    $correct = [66,'`vs','vagrant ssh','PHP','0'];
+    $this->testSnippet($output['snippets'][14][0],$correct);
+    $correct = [67,'`vu','vagrant up','PHP','0'];
+    $this->testSnippet($output['snippets'][14][1],$correct);
+    $correct = [68,'`vr','vagrant reload','PHP','0'];
+    $this->testSnippet($output['snippets'][14][2],$correct);
+    $correct = [69,'`vh','vagrant halt','PHP','0'];
+    $this->testSnippet($output['snippets'][14][3],$correct);
+
   }
 
   /**
    * Export multiple tag groups
+   *
    */
   public function testTagsExportMultiple(){
 
@@ -142,11 +161,37 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $disp = $this->commandTester->getDisplay();
     $this->assertRegExp('/Output saved to/', $disp);
 
+    $output = $this->getFile($s);
+    $this->assertArrayHasKey('snippets',$output);
+    $this->assertCount(3,$output['snippets']);
+
+    $this->assertArrayHasKey('tags',$output);
+    $this->assertCount(3,$output['tags']);
+
+    $this->assertArrayHasKey(3,$output['snippets']);
+    $this->assertCount(7,$output['snippets'][3]);
+
+    $this->assertArrayHasKey(9,$output['snippets']);
+    $this->assertCount(1,$output['snippets'][9]);
+
+    $this->assertArrayHasKey(14,$output['snippets']);
+    $this->assertCount(4,$output['snippets'][14]);
+
+    $correct = [3,'devserver'];
+    $this->testTag($output['tags'][0],$correct);
+
+    //Test a couple of snippets
+    $correct = [33,'`smyc','sudo nano \/etc\/mysql\/my.cnf','PHP','0'];
+    $this->testSnippet($output['snippets'][3][2],$correct);
+
+    $correct = [52,'`xxp','export XDEBUG_CONFIG="idekey=PHPSTORM"','PHP','0'];
+    $this->testSnippet($output['snippets'][9][0],$correct);
 
   }
 
   /**
    * export a single command
+   *
    */
   public function testCmdExport(){
 
@@ -163,13 +208,27 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->assertRegExp('/Output saved to/', $disp);
 
     //Check that the yml is correct somehow
+    $output = $this->getFile($s);
 
+    $this->assertArrayHasKey('snippets',$output);
+    $this->assertCount(1,$output['snippets']);
+
+    $this->assertArrayHasKey('tags',$output);
+    $this->assertCount(1,$output['tags']);
+
+    $correct = [3,'devserver'];
+    $this->testTag($output['tags'][0],$correct);
+
+    $this->assertArrayHasKey(3,$output['snippets']);
+    $this->assertCount(1,$output['snippets'][3]);
+    $correct = [34,'`ssc','sudo dd if=\/dev\/null of=\/var\/log\/syslog','PHP','0'];
+    $this->testSnippet($output['snippets'][3][0],$correct);
 
   }
 
   /**
    * export an untagged command
-   * @group failing
+   *
    */
   public function testUntaggedCmdExport(){
 
@@ -187,12 +246,20 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
 
     //Check that the yml is correct somehow
     //Get the file that was output and test it
-    $reload = $this->getFile($s);
+    $output = $this->getFile($s);
+
+    $this->assertArrayHasKey('snippets',$output);
+    $this->assertArrayHasKey('untagged',$output['snippets']);
+    $this->assertCount(1,$output['snippets']['untagged']);
+
+    $correct = [61,'`dv','drush ves __ENV__','PHP','0'];
+    $this->testSnippet($output['snippets']['untagged'][0],$correct);
 
   }
 
   /**
    * export an untagged and a tagged single command
+   *
    */
   public function testUntaggedAndTaggedCmdExport(){
 
@@ -202,7 +269,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       'command' =>  $this->command->getName(),
       'dbpath'    => $p,
       '--savepath' => $s,
-      '--cmd' => ['`dv','`dform'],
+      '--cmd' => ['`sym','`dform','`dmenu'],
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
@@ -210,7 +277,27 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
 
     //Check that the yml is correct somehow
     //Get the file that was output and test it
-    $reload = $this->getFile($s);
+    $output = $this->getFile($s);
+
+    $this->assertArrayHasKey('snippets',$output);
+    $this->assertArrayHasKey('tags',$output);
+    $this->assertArrayHasKey('untagged',$output['snippets']);
+    $this->assertArrayHasKey(10,$output['snippets']);
+    $this->assertCount(1,$output['snippets']['untagged']);
+    $this->assertCount(2,$output['snippets'][10]);
+
+    $correct = [72,'`sym','ln -s __ORIGINAL__ __SYMLINK__','PHP','0'];
+    $this->testSnippet($output['snippets']['untagged'][0],$correct);
+
+    //we cannot test the data because of all the potential characters. Well we could, but a lot of trouble
+    $correct = [63,'`dmenu',null,'PHP','0'];
+    $this->testSnippet($output['snippets'][10][0],$correct);
+
+    $correct = [64,'`dform',null,'PHP','0'];
+    $this->testSnippet($output['snippets'][10][1],$correct);
+
+    $correct = [10,'drupal'];
+    $this->testTag($output['tags'][0],$correct);
 
   }
 
@@ -231,11 +318,46 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $disp = $this->commandTester->getDisplay();
     $this->assertRegExp('/Output saved to/', $disp);
 
+    $output = $this->getFile($s);
+
+    $this->assertArrayHasKey('snippets',$output);
+    $this->assertCount(3,$output['snippets']);
+
+    $this->assertArrayHasKey('untagged',$output['snippets']);
+    $this->assertCount(1,$output['snippets']['untagged']);
+
+    $this->assertArrayHasKey(15,$output['snippets']);
+    $this->assertCount(1,$output['snippets'][15]);
+
+    $this->assertArrayHasKey(3,$output['snippets']);
+    $this->assertCount(2,$output['snippets'][3]);
+
+    $this->assertArrayHasKey('tags',$output);
+    $this->assertCount(2,$output['tags']);
+
+    $correct = [3,'devserver'];
+    $this->testTag($output['tags'][0],$correct);
+
+    $correct = [15,'d8'];
+    $this->testTag($output['tags'][1],$correct);
+
+    $correct = [3,'checksym\'','php app\/check.php','PHP','0'];
+    $this->testSnippet($output['snippets']['untagged'][0],$correct);
+
+    $correct = [32,'`smyr','sudo service mysql restart','PHP','0'];
+    $this->testSnippet($output['snippets'][3][0],$correct);
+
+    $correct = [37,'`sar','sudo \/usr\/sbin\/apachectl restart','PHP','0'];
+    $this->testSnippet($output['snippets'][3][1],$correct);
+
+    $correct = [70,'`d8f',null,'PHP','0'];
+    $this->testSnippet($output['snippets'][15][0],$correct);
 
   }
 
   /**
    * export some tags and commands
+   * @group failing
    */
   public function testMixedExport(){
 
@@ -246,11 +368,42 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       'dbpath'    => $p,
       '--savepath' => $s,
       '--cmd' => ["checksym'","`d8f",'`vu'],
-      '--tag' => ['vagrant','devserver'],
+      '--tag' => ['vagrant','xdebug'],
     );
     $this->commandTester->execute($arguments);
     $disp = $this->commandTester->getDisplay();
     $this->assertRegExp('/Output saved to/', $disp);
+
+    $output = $this->getFile($s);
+
+    $this->assertArrayHasKey('snippets',$output);
+    $this->assertCount(4,$output['snippets']);
+
+    $this->assertArrayHasKey('tags',$output);
+    $this->assertCount(3,$output['tags']);
+
+    $correct = [14,'vagrant'];
+    $this->testTag($output['tags'][0],$correct);
+    $correct = [9,'xdebug'];
+    $this->testTag($output['tags'][1],$correct);
+    $correct = [15,'d8'];
+    $this->testTag($output['tags'][2],$correct);
+
+    $this->assertArrayHasKey('untagged',$output['snippets']);
+    $this->assertCount(1,$output['snippets']['untagged']);
+
+
+    $this->assertArrayHasKey(9,$output['snippets']);
+    $this->assertCount(1,$output['snippets'][9]);
+
+    //TODO - this is failing because its in the tag and cmd options, and it doesnt merge right
+    $this->assertArrayHasKey(14,$output['snippets']);
+    $this->assertCount(4,$output['snippets'][14]);
+
+    $this->assertArrayHasKey(15,$output['snippets']);
+    $this->assertCount(4,$output['snippets'][1]);
+
+
 
   }
 
@@ -294,6 +447,41 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
       }
     }
 
+  }
+
+  private function testTag(&$tag,$correct){
+    if($correct[0] !== NULL){
+      $this->assertArrayHasKey('tid',$tag);
+      $this->assertRegExp('/'.$correct[0].'/',$tag['tid']);
+    }
+    if($correct[1] !== NULL){
+      $this->assertArrayHasKey('tag',$tag);
+      $this->assertRegExp('/'.$correct[1].'/',$tag['tag']);
+    }
+  }
+
+  private function testSnippet(&$snippet,$correct){
+
+    if($correct[0] !== NULL){
+      $this->assertArrayHasKey('sid',$snippet);
+      $this->assertRegExp('/'.$correct[0].'/',$snippet['sid']);
+    }
+    if($correct[1] !== NULL){
+      $this->assertArrayHasKey('title',$snippet);
+      $this->assertRegExp('/'.$correct[1].'/',$snippet['title']);
+    }
+    if($correct[2] !== NULL){
+      $this->assertArrayHasKey('body',$snippet);
+      $this->assertRegExp('/'.$correct[2].'/',$snippet['body']);
+    }
+    if($correct[3] !== NULL){
+      $this->assertArrayHasKey('syntax',$snippet);
+      $this->assertRegExp('/'.$correct[3].'/',$snippet['syntax']);
+    }
+    if($correct[4] !== NULL){
+      $this->assertArrayHasKey('usageCount',$snippet);
+      $this->assertRegExp('/'.$correct[4].'/',$snippet['usageCount']);
+    }
   }
 
 }
