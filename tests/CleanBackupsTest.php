@@ -50,7 +50,7 @@ class CleanBackupsTest extends \PHPUnit_Framework_TestCase {
 
     $application = new Application();
     $application->add(new Commands\CleanBackups());
-    $command = $application->find('clean');
+    $command = $application->find('backup:clean');
     $commandTester = new CommandTester($command);
     $s = __DIR__ . '/data/cleanme/';
     $arguments = array(

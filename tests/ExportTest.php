@@ -369,7 +369,6 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
    * export some tags and commands
    * Importantly vu is in the commands and the tags groups.
    * It should NOT be imported twice in the snippets group for vagrant
-   * @group failing
    */
   public function testMixedExport(){
 
@@ -413,10 +412,17 @@ class ExportTest extends \PHPUnit_Framework_TestCase {
     $this->assertCount(4,$output['snippets'][14]);
 
     $this->assertArrayHasKey(15,$output['snippets']);
-    $this->assertCount(4,$output['snippets'][1]);
+    $this->assertCount(1,$output['snippets'][15]);
 
     //Test a couple of values
+    $correct = [67,'`vu','vagrant up','PHP','0'];
+    $this->testSnippet($output['snippets'][14][1],$correct);
 
+    $correct = [52,'`xxp','export XDEBUG_CONFIG="idekey=PHPSTORM"','PHP','0'];
+    $this->testSnippet($output['snippets'][9][0],$correct);
+
+    $correct = [3,'checksym\'','php app\/check.php','PHP','0'];
+    $this->testSnippet($output['snippets']['untagged'][0],$correct);
 
   }
 

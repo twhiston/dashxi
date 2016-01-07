@@ -24,21 +24,21 @@ use Symfony\Component\Finder\Finder;
  * Clean up backups that the import process may have made
  * @package twhiston\DashXi\Commands
  */
-class CleanBackups extends Command {
+class ListBackups extends Command {
 
   /**
    * Set up the console command dashxi:clean
    */
   protected function configure() {
     $this
-      ->setName('backup:clean')
+      ->setName('backup:list')
       ->setDescription(
-        'Clean up backups'
+        'List backups'
       )
       ->addArgument(
         'dbpath',
         InputArgument::REQUIRED,
-        'Path to library.dash. Usually /Users/x/Library/Application Support/Dash/'
+        'Path to backups. Usually /Users/x/Library/Application Support/Dash/'
       );
   }
 
@@ -60,23 +60,19 @@ class CleanBackups extends Command {
     //Test db file exists
     $fs = new Filesystem();
     if (!$fs->exists($dbpath)) {
-      $output->writeln('<error>Cannot Find DB path</error>');
+      $output->writeln('<error>Cannot Find Backup path</error>');
       return;
     }
 
     $finder = new Finder();
     $iter = $finder->files()->depth('== 0')->in($dbpath)->getIterator();
 
-    $count = 0;
     foreach ($iter as $file) {
       $fn = $file->getFilename();
       if(Str::startsWith($fn,'library.dash.backup')){
-        $count += 1;
-        $p = $file->getPath(). $fn;
-        unlink($p);
+        $output->writeln($fn);
       }
     }
-    $output->writeln('Deleted '.$count.' backups');
   }
 
 }
