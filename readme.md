@@ -1,6 +1,8 @@
 # DashXi
 Dash(e)X(port)i(mport)
 ---
+[ ![Codeship Status for twhiston/dashxi](https://codeship.com/projects/af9ef440-b7e9-0133-2c45-3623c8803696/status?branch=master)](https://codeship.com/projects/134951)
+
 
 A php command line tool to import and export Dash snippets.
 #### Why PHP?
