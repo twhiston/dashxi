@@ -1,7 +1,0 @@
-<phpunit bootstrap="../vendor/autoload.php">
-    <testsuites>
-        <testsuite name="DashXi Test Suite">
-            <file>tests/test.php</file>
-        </testsuite>
-    </testsuites>
-</phpunit>
