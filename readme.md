@@ -29,7 +29,7 @@ composer install
 
 Use application.php to access the commands
 ```
-./application.php import 'User/x/library/Application Support/Dash/database.dash' --file=''
+./application.php import '/Users/x/library/Application Support/Dash/library.dash' --file=''
 ```
 
 or build the phar yourself (requires box)
@@ -58,7 +58,7 @@ dashxi help export
 Export a set of all snippets, snippets by tag, or individual snippets by name.
 Note that currently there is no way to export only the set of untagged commands. You could specify each command individually, but it would be easier to simply create a tag for them in Dash
 ```
-dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='drupal' --tag='symfony' --snip='`cstm' --snip='doit' --file='User/x/DashBackups/backup.yml'
+dashxi export '/Users/x/Library/Application Support/Dash/library.dash' --tag='drupal' --tag='symfony' --snip='`cstm' --snip='doit' --file='/User/x/DashBackups/backup.yml'
 ```
 
 #### Arguments
@@ -73,7 +73,7 @@ dashxi export 'User/x/library/Application Support/Dash/database.dash' --tag='dru
 ## import
 Import a previously generated export
 ``` 
-dashxi import 'User/x/library/Application Support/Dash/database.dash' --file='/path/to/backup/data.yml' 
+dashxi import '/Users/x/library/Application Support/Dash/library.dash' --file='/path/to/backup/data.yml' 
 ```
 
 #### Arguments
