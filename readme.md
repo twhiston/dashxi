@@ -58,7 +58,7 @@ dashxi help export
 Export a set of all snippets, snippets by tag, or individual snippets by name.
 Note that currently there is no way to export only the set of untagged commands. You could specify each command individually, but it would be easier to simply create a tag for them in Dash
 ```
-dashxi export '/Users/x/Library/Application Support/Dash/library.dash' --tag='drupal' --tag='symfony' --snip='`cstm' --snip='doit' --file='/User/x/DashBackups/backup.yml'
+dashxi export '/Users/x/Library/Application Support/Dash/library.dash' --tag='drupal' --tag='symfony' --snip='`cstm' --snip='doit' --file='/Users/x/DashBackups/backup.yml'
 ```
 
 #### Arguments
@@ -87,7 +87,7 @@ dashxi import '/Users/x/library/Application Support/Dash/library.dash' --file='/
 ## backup:list
 List any backups created by DashXi
 ```
-dashxi backup:list 'User/x/library/Application Support/Dash/'
+dashxi backup:list '/Users/x/library/Application Support/Dash/'
 ```
 
 #### Arguments
@@ -96,7 +96,7 @@ dashxi backup:list 'User/x/library/Application Support/Dash/'
 ## backup:restore
 Restore any backups created by DashXi
 ```
-dashxi backup:restore 'User/x/library/Application Support/Dash/' 'User/x/library/Application Support/Dash/library.dash.backup.123456'
+dashxi backup:restore '/Users/x/library/Application Support/Dash/' '/Users/x/library/Application Support/Dash/library.dash.backup.123456'
 ```
 
 #### Arguments
@@ -106,7 +106,7 @@ dashxi backup:restore 'User/x/library/Application Support/Dash/' 'User/x/library
 ## backup:clean
 Delete any backups created by DashXi
 ```
-dashxi backup:clean 'User/x/library/Application Support/Dash/'
+dashxi backup:clean '/Users/x/library/Application Support/Dash/'
 ```
 
 #### Arguments
