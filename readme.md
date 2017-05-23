@@ -22,7 +22,7 @@ mv dashxi.phar /usr/local/bin/dashxi
 
 Otherwise you can download the repo and run composer update (requires composer)
 ```
-git clone https://twhiston@bitbucket.org/twhiston/dashxi.git
+git clone git@github.com:twhiston/dashxi.git
 composer install
 ```
 
@@ -33,7 +33,7 @@ Use application.php to access the commands
 
 or build the phar yourself (requires box)
 ```
-git clone https://twhiston@bitbucket.org/twhiston/dashxi.git
+git clone git@github.com:twhiston/dashxi.git
 composer update
 box build -v
 ```
