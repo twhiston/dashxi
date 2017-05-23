@@ -1,8 +1,6 @@
 # DashXi
 Dash(e)X(port)i(mport)
 ---
-[ ![Codeship Status for twhiston/dashxi](https://codeship.com/projects/af9ef440-b7e9-0133-2c45-3623c8803696/status?branch=master)](https://codeship.com/projects/134951)
-
 
 A php command line tool to import and export Dash snippets.
 #### Why PHP?
@@ -12,7 +10,8 @@ I work for a web company and it makes more sense to make it in a language that e
 
 The easiest way to install is to download the .phar
 ```
-curl -L -O -sS https://bitbucket.org/twhiston/dashxi/downloads/dashxi.phar
+curl -L -O -sS https://github.com/twhiston/dashxi/releases/download/1.0.0/dashxi.zip
+unzip dashxi.zip
 sudo chmod 700 dashxi.phar
 ```
 
