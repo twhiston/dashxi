@@ -19,10 +19,7 @@
             "twhiston\\DashXi\\" : "src"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://twhiston@bitbucket.org/twhiston/twlib.git"
-        }
-    ]
+    "require-dev": {
+        "phpunit/phpunit": "^5"
+    }
 }
