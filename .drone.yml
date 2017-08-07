@@ -1,0 +1,6 @@
+pipeline:
+  build:
+    image: tomwhiston/drone-php7
+    commands:
+      - composer install
+      - phpunit --coverage-clover
