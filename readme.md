@@ -1,6 +1,7 @@
 # DashXi
 Dash(e)X(port)i(mport)
 ---
+[![Build Status](https://drone.twhiston.cloud/api/badges/twhiston/dashxi/status.svg)](https://drone.twhiston.cloud/twhiston/dashxi)
 
 A php command line tool to import and export Dash snippets.
 #### Why PHP?
