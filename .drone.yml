@@ -3,4 +3,4 @@ pipeline:
     image: tomwhiston/drone-php7
     commands:
       - composer install
-      - ./vendor/bin/phpunit --coverage-clover ./app.coverage
+      - ./vendor/bin/phpunit --coverage-text

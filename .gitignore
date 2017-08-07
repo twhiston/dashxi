@@ -1,6 +1,5 @@
 .idea
 vendor
-composer.lock
 tests/data/run/testAllExport.yml
 tests/data/run/testCmdExport.yml
 tests/data/run/testCmdExportMultiple.yml
